@@ -1,5 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class Company {
     private String companyName;
 
     @OneToMany(mappedBy = "company")
+    @JsonManagedReference
     private List<Person> usersList;
 }

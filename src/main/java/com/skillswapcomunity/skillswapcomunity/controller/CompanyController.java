@@ -1,6 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 
-import com.skillswapcomunity.skillswapcomunity.model.Company;
+import com.skillswapcomunity.skillswapcomunity.dto.CompanyDto;
 import com.skillswapcomunity.skillswapcomunity.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ public class CompanyController {
     private CompanyService companyService;
 
     @GetMapping("/all")
-    public List<Company> getAllCompanys() {
+    public List<CompanyDto> getAllCompanys() {
         return companyService.getCompanys();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Company> getCompanyById(@PathVariable long id) {
-        Optional<Company> companyOptional = companyService.getCompany(id);
+    public ResponseEntity<CompanyDto> getCompanyById(@PathVariable long id) {
+        Optional<CompanyDto> companyOptional = companyService.getCompany(id);
         if (companyOptional.isPresent()) {
             return ResponseEntity.ok(companyOptional.get());
         }
@@ -34,7 +34,7 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+    public ResponseEntity<CompanyDto> createCompany(@RequestBody CompanyDto company) {
         return new ResponseEntity<>(
                 companyService.createCompany(company),
                 HttpStatus.CREATED
@@ -42,10 +42,10 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(@RequestBody Company company, @PathVariable Long id)
+    public ResponseEntity<CompanyDto> updateCompany(@RequestBody CompanyDto company, @PathVariable Long id)
     {
         try {
-            Company updatedCompany = companyService.updateCompany(company, id);
+            CompanyDto updatedCompany = companyService.updateCompany(company, id);
             return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
         }
         catch (Exception e) {

@@ -1,4 +1,5 @@
 package com.skillswapcomunity.skillswapcomunity.service;
+import com.skillswapcomunity.skillswapcomunity.dto.PersonDto;
 import com.skillswapcomunity.skillswapcomunity.model.Person;
 import com.skillswapcomunity.skillswapcomunity.repository.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,22 +16,29 @@ public class PersonServiceImpl implements PersonService {
     private PersonRepository personRepository;
 
     @Override
-    public List<Person> getPersons() {
-        return personRepository.findAll();
+    public List<PersonDto> getPersons() {
+        return personRepository.findAll().stream().map(this::convertPersonToPersonDto).toList();
     }
 
     @Override
-    public Optional<Person> getPerson(Long id) {
-        return personRepository.findById(id);
+    public Optional<PersonDto> getPerson(Long id) {
+        Optional<Person> personOptional = personRepository.findById(id);
+        if(personOptional.isPresent()) {
+            return Optional.of(convertPersonToPersonDto(personOptional.get()));
+        }
+        else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Person createPerson(Person person) {
-        return personRepository.save(person);
+    public PersonDto createPerson(PersonDto personDto) {
+        return convertPersonToPersonDto(
+                personRepository.save(convertPersonDtoToPerson(personDto)));
     }
 
     @Override
-    public Person updatePerson(Person person, Long id) {
+    public PersonDto updatePerson(PersonDto person, Long id) {
         Optional<Person> personOptional = personRepository.findById(id);
         if (personOptional.isPresent()) {
             Person personToUpdate = personOptional.get();
@@ -44,7 +52,7 @@ public class PersonServiceImpl implements PersonService {
             personToUpdate.setRating(person.getRating());
             personToUpdate.setExperience(person.getExperience());
             personToUpdate.setCompany(person.getCompany());
-            return personRepository.save(personToUpdate);
+            return convertPersonToPersonDto(personRepository.save(personToUpdate));
         }
         else {
             throw new EntityNotFoundException("Person with the ID = '"
@@ -55,5 +63,15 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void deletePerson(Long id) {
         personRepository.deleteById(id);
+    }
+
+    private PersonDto convertPersonToPersonDto(Person person) {
+        return new PersonDto(person.getName(), person.getEmail(), person.getPhone(), person.getDescription(), person.getAchievements(), person.getSkill(), person.getSalary(), person.getRating(), person.getExperience(), person.getCompany());
+    }
+
+    private Person convertPersonDtoToPerson(PersonDto personDto) {
+        String personName = personDto.getName();
+        Person person = personRepository.findByName(personName);
+        return  person;
     }
 }

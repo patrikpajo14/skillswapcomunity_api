@@ -1,4 +1,5 @@
 package com.skillswapcomunity.skillswapcomunity.service;
+import com.skillswapcomunity.skillswapcomunity.dto.CompanyDto;
 import com.skillswapcomunity.skillswapcomunity.model.Company;
 import com.skillswapcomunity.skillswapcomunity.repository.CompanyRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,31 +13,41 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    private CompanyRepository skillRepository;
+    private CompanyRepository companyRepository;
 
     @Override
-    public List<Company> getCompanys() {
-        return skillRepository.findAll();
+    public List<CompanyDto> getCompanys() {
+        return companyRepository.findAll()
+                .stream()
+                .map(this::convertCompanyToCompanyDto)
+                .toList();
     }
 
     @Override
-    public Optional<Company> getCompany(Long id) {
-        return skillRepository.findById(id);
+    public Optional<CompanyDto> getCompany(Long id) {
+        Optional<Company> skillOptional = companyRepository.findById(id);
+        if(skillOptional.isPresent()) {
+            return Optional.of(convertCompanyToCompanyDto(skillOptional.get()));
+        }
+        else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Company createCompany(Company company) {
-        return skillRepository.save(company);
+    public CompanyDto createCompany(CompanyDto companyDto) {
+        return convertCompanyToCompanyDto(
+                companyRepository.save(convertCompanyDtoToCompany(companyDto)));
     }
 
     @Override
-    public Company updateCompany(Company company, Long id) {
-        Optional<Company> companyOptional = skillRepository.findById(id);
+    public CompanyDto updateCompany(CompanyDto companyDto, Long id) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
         if (companyOptional.isPresent()) {
             Company companyToUpdate = companyOptional.get();
-            companyToUpdate.setCompanyName(company.getCompanyName());
-            companyToUpdate.setUsersList(company.getUsersList());
-            return skillRepository.save(companyToUpdate);
+            companyToUpdate.setCompanyName(companyDto.getCompanyName());
+            companyToUpdate.setUsersList(companyDto.getUsersList());
+            return convertCompanyToCompanyDto(companyRepository.save(companyToUpdate));
         }
         else {
             throw new EntityNotFoundException("Company with the ID = '"
@@ -46,6 +57,16 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCompany(Long id) {
-        skillRepository.deleteById(id);
+        companyRepository.deleteById(id);
+    }
+
+    private CompanyDto convertCompanyToCompanyDto(Company company) {
+        return new CompanyDto(company.getCompanyName(), company.getUsersList());
+    }
+
+    private Company convertCompanyDtoToCompany(CompanyDto companyDto) {
+        String companyName = companyDto.getCompanyName();
+        Company company = companyRepository.findByCompanyName(companyName);
+        return  company;
     }
 }

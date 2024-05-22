@@ -1,6 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 
-import com.skillswapcomunity.skillswapcomunity.model.Skill;
+import com.skillswapcomunity.skillswapcomunity.dto.SkillDto;
 import com.skillswapcomunity.skillswapcomunity.service.SkillService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ public class SkillController {
     private SkillService skillService;
 
     @GetMapping("/all")
-    public List<Skill> getAllSkills() {
+    public List<SkillDto> getAllSkills() {
         return skillService.getSkills();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Skill> getSkillById(@PathVariable long id) {
-        Optional<Skill> skillOptional = skillService.getSkill(id);
+    public ResponseEntity<SkillDto> getSkillById(@PathVariable long id) {
+        Optional<SkillDto> skillOptional = skillService.getSkill(id);
         if (skillOptional.isPresent()) {
             return ResponseEntity.ok(skillOptional.get());
         }
@@ -34,7 +34,7 @@ public class SkillController {
     }
 
     @PostMapping
-    public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
+    public ResponseEntity<SkillDto> createSkill(@RequestBody SkillDto skill) {
         return new ResponseEntity<>(
                 skillService.createSkill(skill),
                 HttpStatus.CREATED
@@ -42,10 +42,10 @@ public class SkillController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill, @PathVariable Long id)
+    public ResponseEntity<SkillDto> updateSkill(@RequestBody SkillDto skill, @PathVariable Long id)
     {
         try {
-            Skill updatedSkill = skillService.updateSkill(skill, id);
+            SkillDto updatedSkill = skillService.updateSkill(skill, id);
             return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
         }
         catch (Exception e) {

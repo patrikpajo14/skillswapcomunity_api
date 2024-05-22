@@ -1,5 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Person {
 
     @ManyToOne
     @JoinColumn(name="company_id", nullable=false)
+    @JsonBackReference
     private Company company;
 
 

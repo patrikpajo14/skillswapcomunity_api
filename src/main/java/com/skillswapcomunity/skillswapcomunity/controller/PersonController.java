@@ -1,6 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 
-import com.skillswapcomunity.skillswapcomunity.model.Person;
+import com.skillswapcomunity.skillswapcomunity.dto.PersonDto;
 import com.skillswapcomunity.skillswapcomunity.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping("/all")
-    public List<Person> getAllPersons() {
+    public List<PersonDto> getAllPersons() {
         return personService.getPersons();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPersonById(@PathVariable long id) {
-        Optional<Person> personOptional = personService.getPerson(id);
+    public ResponseEntity<PersonDto> getPersonById(@PathVariable long id) {
+        Optional<PersonDto> personOptional = personService.getPerson(id);
         if (personOptional.isPresent()) {
             return ResponseEntity.ok(personOptional.get());
         }
@@ -34,7 +34,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+    public ResponseEntity<PersonDto> createPerson(@RequestBody PersonDto person) {
         return new ResponseEntity<>(
                 personService.createPerson(person),
                 HttpStatus.CREATED
@@ -42,10 +42,10 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable Long id)
+    public ResponseEntity<PersonDto> updatePerson(@RequestBody PersonDto person, @PathVariable Long id)
     {
         try {
-            Person updatedPerson = personService.updatePerson(person, id);
+            PersonDto updatedPerson = personService.updatePerson(person, id);
             return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
         }
         catch (Exception e) {
