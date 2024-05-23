@@ -66,6 +66,10 @@ public class SkillServiceImpl implements SkillService {
     private Skill convertSkillDtoToSkill(SkillDto skillDto) {
         String skillName = skillDto.getName();
         Skill skill = skillRepository.findByName(skillName);
+        if (skill == null) {
+            skill = new Skill();
+            skill.setName(skillName);
+        }
         return  skill;
     }
 }

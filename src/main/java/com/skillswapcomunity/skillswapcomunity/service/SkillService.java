@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface SkillService {
     List<SkillDto> getSkills();
     Optional<SkillDto> getSkill(Long id);
-    SkillDto createSkill(SkillDto position);
-    SkillDto updateSkill(SkillDto position, Long id);
+    SkillDto createSkill(SkillDto skill);
+    SkillDto updateSkill(SkillDto skill, Long id);
     void deleteSkill(Long id);
 }
