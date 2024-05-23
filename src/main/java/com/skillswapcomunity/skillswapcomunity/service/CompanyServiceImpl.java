@@ -67,6 +67,10 @@ public class CompanyServiceImpl implements CompanyService {
     private Company convertCompanyDtoToCompany(CompanyDto companyDto) {
         String companyName = companyDto.getCompanyName();
         Company company = companyRepository.findByCompanyName(companyName);
+        if (company == null) {
+            company = new Company();
+            company.setCompanyName(companyName);
+        }
         return  company;
     }
 }
