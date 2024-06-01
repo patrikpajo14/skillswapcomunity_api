@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface PersonService {
     List<PersonDto> getPersons();
     Optional<PersonDto> getPerson(Long id);
-    PersonDto createPerson(PersonDto position);
-    PersonDto updatePerson(PersonDto position, Long id);
+    PersonDto createPerson(PersonDto person);
+    PersonDto updatePerson(PersonDto person, Long id);
     void deletePerson(Long id);
 }

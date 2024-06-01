@@ -1,7 +1,11 @@
 package com.skillswapcomunity.skillswapcomunity.service;
 import com.skillswapcomunity.skillswapcomunity.dto.PersonDto;
+import com.skillswapcomunity.skillswapcomunity.model.Company;
 import com.skillswapcomunity.skillswapcomunity.model.Person;
+import com.skillswapcomunity.skillswapcomunity.model.Skill;
+import com.skillswapcomunity.skillswapcomunity.repository.CompanyRepository;
 import com.skillswapcomunity.skillswapcomunity.repository.PersonRepository;
+import com.skillswapcomunity.skillswapcomunity.repository.SkillRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,8 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
 
     private PersonRepository personRepository;
+    private CompanyRepository companyRepository;
+    private SkillRepository skillRepository;
 
     @Override
     public List<PersonDto> getPersons() {
@@ -70,8 +76,28 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private Person convertPersonDtoToPerson(PersonDto personDto) {
-        String personName = personDto.getName();
-        Person person = personRepository.findByName(personName);
-        return  person;
+        Person person = new Person();
+        person.setName(personDto.getName());
+        person.setEmail(personDto.getEmail());
+        person.setPhone(personDto.getPhone());
+        person.setDescription(personDto.getDescription());
+        person.setAchievements(personDto.getAchievements());
+
+        if (personDto.getSkill() != null && personDto.getSkill().getId() != null) {
+            Skill skill = skillRepository.findById(personDto.getSkill().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Skill not found"));
+            person.setSkill(skill);
+        }
+
+        if (personDto.getCompany() != null && personDto.getCompany().getId() != null) {
+            Company company = companyRepository.findById(personDto.getCompany().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+            person.setCompany(company);
+        }
+
+        person.setSalary(personDto.getSalary());
+        person.setRating(personDto.getRating());
+        person.setExperience(personDto.getExperience());
+        return person;
     }
 }

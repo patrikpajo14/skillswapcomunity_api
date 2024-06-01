@@ -33,6 +33,4 @@ public class Person {
     @JoinColumn(name="company_id", nullable=false)
     @JsonBackReference
     private Company company;
-
-
 }
