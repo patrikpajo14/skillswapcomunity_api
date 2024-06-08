@@ -25,12 +25,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<PersonDto> getPersonById(@PathVariable long id) {
         Optional<PersonDto> personOptional = personService.getPerson(id);
-        if (personOptional.isPresent()) {
-            return ResponseEntity.ok(personOptional.get());
-        }
-        else {
-            return ResponseEntity.noContent().build();
-        }
+        return personOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @PostMapping
