@@ -47,11 +47,4 @@ public class AuthController {
 
         return ResponseEntity.ok(loginResponse);
     }
-
-    /*
-    @PostMapping("/api/v1/logout")
-    public void logout() {
-        System.out.println("Logout...");
-    }*/
-
 }
