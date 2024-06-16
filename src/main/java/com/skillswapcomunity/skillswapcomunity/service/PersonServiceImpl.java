@@ -38,6 +38,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public Optional<Person> getPersonEntity(Long id) {
+        return personRepository.findById(id);
+    }
+
+    @Override
     public PersonDto createPerson(PersonDto personDto) {
         return convertPersonToPersonDto(
                 personRepository.save(convertPersonDtoToPerson(personDto)));
@@ -72,7 +77,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private PersonDto convertPersonToPersonDto(Person person) {
-        return new PersonDto(person.getName(), person.getEmail(), person.getPhone(), person.getDescription(), person.getAchievements(), person.getSkill(), person.getSalary(), person.getRating(), person.getExperience(), person.getCompany());
+        return new PersonDto(person.getId(), person.getName(), person.getEmail(), person.getPhone(), person.getDescription(), person.getAchievements(), person.getSkill(), person.getSalary(), person.getRating(), person.getExperience(), person.getCompany());
     }
 
     private Person convertPersonDtoToPerson(PersonDto personDto) {

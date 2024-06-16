@@ -1,6 +1,7 @@
 package com.skillswapcomunity.skillswapcomunity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +39,14 @@ public class Person implements UserDetails {
     @JoinColumn(name="company_id")
     @JsonBackReference
     private Company company;
+
+    @OneToMany(mappedBy = "sender")
+    @JsonManagedReference
+    private List<Requests> sentRequests;
+
+    @OneToMany(mappedBy = "recipient")
+    @JsonManagedReference
+    private List<Requests> receivedRequests;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

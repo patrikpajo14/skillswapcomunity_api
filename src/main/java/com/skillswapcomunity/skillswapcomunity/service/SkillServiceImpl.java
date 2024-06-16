@@ -60,7 +60,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     private SkillDto convertSkillToSkillDto(Skill skill) {
-        return new SkillDto(skill.getName());
+        return new SkillDto(skill.getId(), skill.getName());
     }
 
     private Skill convertSkillDtoToSkill(SkillDto skillDto) {

@@ -1,5 +1,5 @@
 package com.skillswapcomunity.skillswapcomunity.dto;
-
+import com.skillswapcomunity.skillswapcomunity.model.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkillDto {
+public class RequestDto {
     private Long id;
-    private String name;
+    private Integer status;
+    private Person sender;
+    private Person recipient;
 }
