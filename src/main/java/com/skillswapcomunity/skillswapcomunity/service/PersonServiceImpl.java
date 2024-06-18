@@ -2,9 +2,11 @@ package com.skillswapcomunity.skillswapcomunity.service;
 import com.skillswapcomunity.skillswapcomunity.dto.PersonDto;
 import com.skillswapcomunity.skillswapcomunity.model.Company;
 import com.skillswapcomunity.skillswapcomunity.model.Person;
+import com.skillswapcomunity.skillswapcomunity.model.Requests;
 import com.skillswapcomunity.skillswapcomunity.model.Skill;
 import com.skillswapcomunity.skillswapcomunity.repository.CompanyRepository;
 import com.skillswapcomunity.skillswapcomunity.repository.PersonRepository;
+import com.skillswapcomunity.skillswapcomunity.repository.RequestsRepository;
 import com.skillswapcomunity.skillswapcomunity.repository.SkillRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class PersonServiceImpl implements PersonService {
     private PersonRepository personRepository;
     private CompanyRepository companyRepository;
     private SkillRepository skillRepository;
+    private RequestsRepository requestRepository;
 
     @Override
     public List<PersonDto> getPersons() {
@@ -63,6 +66,8 @@ public class PersonServiceImpl implements PersonService {
             personToUpdate.setRating(person.getRating());
             personToUpdate.setExperience(person.getExperience());
             personToUpdate.setCompany(person.getCompany());
+            personToUpdate.setSentRequests(person.getSentRequests());
+            personToUpdate.setReceivedRequests(person.getReceivedRequests());
             return convertPersonToPersonDto(personRepository.save(personToUpdate));
         }
         else {
@@ -77,7 +82,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private PersonDto convertPersonToPersonDto(Person person) {
-        return new PersonDto(person.getId(), person.getName(), person.getEmail(), person.getPhone(), person.getDescription(), person.getAchievements(), person.getSkill(), person.getSalary(), person.getRating(), person.getExperience(), person.getCompany());
+        return new PersonDto(person.getId(), person.getName(), person.getEmail(), person.getPhone(), person.getDescription(), person.getAchievements(), person.getSkill(), person.getSalary(), person.getRating(), person.getExperience(), person.getCompany(), person.getSentRequests(), person.getReceivedRequests());
     }
 
     private Person convertPersonDtoToPerson(PersonDto personDto) {
@@ -103,6 +108,8 @@ public class PersonServiceImpl implements PersonService {
         person.setSalary(personDto.getSalary());
         person.setRating(personDto.getRating());
         person.setExperience(personDto.getExperience());
+        person.setSentRequests(personDto.getSentRequests());
+        person.setReceivedRequests(personDto.getReceivedRequests());
         return person;
     }
 }
