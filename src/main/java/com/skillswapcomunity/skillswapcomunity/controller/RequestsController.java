@@ -1,9 +1,6 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 
 import com.skillswapcomunity.skillswapcomunity.dto.RequestDto;
-import com.skillswapcomunity.skillswapcomunity.model.Person;
-import com.skillswapcomunity.skillswapcomunity.model.Requests;
-import com.skillswapcomunity.skillswapcomunity.service.PersonService;
 import com.skillswapcomunity.skillswapcomunity.service.RequestsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +16,6 @@ import java.util.Optional;
 public class RequestsController {
 
     private RequestsService requestService;
-    private PersonService personService;
 
     @GetMapping("/all")
     public List<RequestDto> getAllRequests() {
@@ -32,7 +28,6 @@ public class RequestsController {
         return requestOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
-    //http://localhost:8080/requests?senderId=1&recipientId=2
     @PostMapping
     public ResponseEntity<RequestDto> createRequest(@RequestParam Long senderId, @RequestParam Long recipientId) {
         return new ResponseEntity<>(

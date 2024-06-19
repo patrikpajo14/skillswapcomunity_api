@@ -14,15 +14,15 @@ public class Requests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer status;
+    private int status;
 
     @ManyToOne
     @JoinColumn(name="sender_id")
-    @JsonBackReference
+    @JsonBackReference(value="sentRequests")
     private Person sender;
 
     @ManyToOne
     @JoinColumn(name="recipient_id")
-    @JsonBackReference
+    @JsonBackReference(value="receivedRequests")
     private Person recipient;
 }

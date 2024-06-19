@@ -1,7 +1,9 @@
 package com.skillswapcomunity.skillswapcomunity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Person implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,15 +40,15 @@ public class Person implements UserDetails {
 
     @ManyToOne
     @JoinColumn(name="company_id")
-    @JsonBackReference
+    @JsonBackReference(value="company")
     private Company company;
 
     @OneToMany(mappedBy = "sender")
-    @JsonManagedReference
+    @JsonManagedReference(value="sentRequests")
     private List<Requests> sentRequests;
 
     @OneToMany(mappedBy = "recipient")
-    @JsonManagedReference
+    @JsonManagedReference(value="receivedRequests")
     private List<Requests> receivedRequests;
 
     @Override

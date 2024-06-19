@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestDto {
     private Long id;
-    private Integer status;
+    private int status;
     private Person sender;
     private Person recipient;
 }
