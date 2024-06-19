@@ -61,9 +61,9 @@ public class RequestsServiceImpl implements RequestsService {
     public RequestDto updateRequest(RequestDto requestDto, Long id) {
         Optional<Requests> requestOptional = requestsRepository.findById(id);
         if (requestOptional.isPresent()) {
-            Requests skillToUpdate = requestOptional.get();
-            skillToUpdate.setStatus(requestDto.getStatus());
-            return convertRequestToRequestDto(requestsRepository.save(skillToUpdate));
+            Requests requestToUpdate = requestOptional.get();
+            requestToUpdate.setStatus(requestDto.getStatus());
+            return convertRequestToRequestDto(requestsRepository.save(requestToUpdate));
         }
         else {
             throw new EntityNotFoundException("Requests with the ID = '"
