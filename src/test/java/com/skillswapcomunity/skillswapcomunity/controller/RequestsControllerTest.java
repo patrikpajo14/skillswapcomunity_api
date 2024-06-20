@@ -1,11 +1,9 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -19,12 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class RequestsControllerTest extends BaseControllerTest {
+public class RequestsControllerTest extends AuthHeadersControllerTest {
 
     @Test
     void getAllRequests() throws Exception {
         mockMvc.perform(get("/requests/all")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -51,7 +49,7 @@ public class RequestsControllerTest extends BaseControllerTest {
         body.put("status", 20);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/requests/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                 )
@@ -64,7 +62,7 @@ public class RequestsControllerTest extends BaseControllerTest {
     @Test
     void deleteRequests() throws Exception {
         mockMvc.perform(delete("/requests/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isNoContent());

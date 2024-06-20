@@ -16,12 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class CompanyControllerTest extends BaseControllerTest {
+public class CompanyControllerTest extends AuthHeadersControllerTest {
 
     @Test
     void getAllCompanys() throws Exception {
         mockMvc.perform(get("/company/all")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -33,7 +33,7 @@ public class CompanyControllerTest extends BaseControllerTest {
     @Test
     void getCompanyById() throws Exception {
         mockMvc.perform(get("/company/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class CompanyControllerTest extends BaseControllerTest {
         body.put("companyName", "New Company");
 
         mockMvc.perform(post("/company")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                 )
@@ -64,7 +64,7 @@ public class CompanyControllerTest extends BaseControllerTest {
         body.put("companyName", "NewCompanyName");
 
         mockMvc.perform(put("/company/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                 )
@@ -77,7 +77,7 @@ public class CompanyControllerTest extends BaseControllerTest {
     @Test
     void deleteCompany() throws Exception {
         mockMvc.perform(delete("/skill/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isNoContent());

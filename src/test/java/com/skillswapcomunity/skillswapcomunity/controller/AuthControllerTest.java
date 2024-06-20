@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class AuthControllerTest extends BaseControllerTest {
+class AuthControllerTest extends AuthHeadersControllerTest {
 
     @Test
     void register() throws Exception {

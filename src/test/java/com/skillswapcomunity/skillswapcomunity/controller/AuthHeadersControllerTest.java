@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-public abstract class BaseControllerTest {
+public abstract class AuthHeadersControllerTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -34,23 +33,7 @@ public abstract class BaseControllerTest {
                 .build();
     }
 
-    protected String getAdminAuthorizationHeader() throws Exception {
-        Map<String, Object> body = new HashMap<>();
-        body.put("email", "test@gmail.com");
-        body.put("password", "test");
-
-        MvcResult mvcResult = mockMvc.perform(
-                post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(body))
-        ).andReturn();
-
-        String jwt = JsonPath.read(mvcResult.getResponse().getContentAsString(), "$.token");
-
-        return "Bearer " + jwt;
-    }
-
-    protected String getUserAuthorizationHeader() throws Exception {
+    protected String getAuthorizationHeader() throws Exception {
         Map<String, Object> body = new HashMap<>();
         body.put("email", "test@gmail.com");
         body.put("password", "test");

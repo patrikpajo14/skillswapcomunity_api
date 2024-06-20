@@ -1,11 +1,9 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -19,12 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class SkillControllerTest extends BaseControllerTest {
+public class SkillControllerTest extends AuthHeadersControllerTest {
 
     @Test
     void getAllSkills() throws Exception {
         mockMvc.perform(get("/skill/all")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -46,7 +44,7 @@ public class SkillControllerTest extends BaseControllerTest {
         body.put("name", "Full Stack Developer");
 
         mockMvc.perform(post("/skill")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                 )
@@ -62,7 +60,7 @@ public class SkillControllerTest extends BaseControllerTest {
         body.put("name", "Next.js developer");
 
         mockMvc.perform(put("/skill/2")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                 )
@@ -75,7 +73,7 @@ public class SkillControllerTest extends BaseControllerTest {
     @Test
     void deleteSkill() throws Exception {
         mockMvc.perform(delete("/skill/1")
-                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .header(HttpHeaders.AUTHORIZATION, getAuthorizationHeader())
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isNoContent());
