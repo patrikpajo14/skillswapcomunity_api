@@ -41,9 +41,27 @@ public class PersonControllerTest extends BaseControllerTest {
     }
 
     @Test
+    void createPerson() throws Exception {
+        Map<String, Object> body = new HashMap<>();
+        body.put("name", "New User");
+        body.put("email", "user@gmail.com");
+        body.put("password", "user");
+
+        mockMvc.perform(post("/person")
+                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
+                .andExpect(jsonPath("$.email").value("user@gmail.com"));
+    }
+
+    @Test
     void updatePerson() throws Exception {
         Map<String, Object> body = new HashMap<>();
-        body.put("name", "Lucija Beba");
+        body.put("name", "Lucija Tokic");
 
         mockMvc.perform(put("/person/2")
                         .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
@@ -53,7 +71,7 @@ public class PersonControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(jsonPath("$.name").value("Lucija Beba"));
+                .andExpect(jsonPath("$.name").value("Lucija Tokic"));
     }
 
     @Test

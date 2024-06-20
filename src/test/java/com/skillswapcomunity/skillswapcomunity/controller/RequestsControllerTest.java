@@ -35,10 +35,15 @@ public class RequestsControllerTest extends BaseControllerTest {
 
     @Test
     void getRequestsById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/requests/{id}", 1)
+        mockMvc.perform(get("/requests/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/requests/{id}", 999)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
+
 
     @Test
     void updateRequests() throws Exception {

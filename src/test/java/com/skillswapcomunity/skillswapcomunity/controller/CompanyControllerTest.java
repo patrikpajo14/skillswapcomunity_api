@@ -27,7 +27,7 @@ public class CompanyControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
@@ -40,6 +40,22 @@ public class CompanyControllerTest extends BaseControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().encoding(StandardCharsets.UTF_8))
                 .andExpect(jsonPath("$.companyName").value("TVZ Company"));
+    }
+
+    @Test
+    void createCompany() throws Exception {
+        Map<String, Object> body = new HashMap<>();
+        body.put("companyName", "New Company");
+
+        mockMvc.perform(post("/company")
+                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
+                .andExpect(jsonPath("$.companyName").value("New Company"));
     }
 
     @Test

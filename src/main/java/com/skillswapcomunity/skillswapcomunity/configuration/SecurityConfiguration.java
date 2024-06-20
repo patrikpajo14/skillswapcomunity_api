@@ -49,7 +49,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/bugtracking/**").authenticated()
                         .anyRequest()
                         .authenticated())
                 .authenticationProvider(authenticationProvider)

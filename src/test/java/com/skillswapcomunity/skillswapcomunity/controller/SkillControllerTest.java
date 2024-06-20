@@ -30,7 +30,7 @@ public class SkillControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
@@ -38,6 +38,22 @@ public class SkillControllerTest extends BaseControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/skill/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    void createSkill() throws Exception {
+        Map<String, Object> body = new HashMap<>();
+        body.put("name", "Full Stack Developer");
+
+        mockMvc.perform(post("/skill")
+                        .header(HttpHeaders.AUTHORIZATION, getAdminAuthorizationHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
+                .andExpect(jsonPath("$.name").value("Full Stack Developer"));
     }
 
     @Test
