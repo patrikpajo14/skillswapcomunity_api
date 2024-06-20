@@ -14,7 +14,7 @@ public class Requests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer status;
+    private int status;
 
     @ManyToOne
     @JoinColumn(name="sender_id")
