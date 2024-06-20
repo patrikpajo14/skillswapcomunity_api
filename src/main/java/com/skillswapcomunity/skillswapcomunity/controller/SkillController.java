@@ -3,6 +3,7 @@ package com.skillswapcomunity.skillswapcomunity.controller;
 import com.skillswapcomunity.skillswapcomunity.dto.SkillDto;
 import com.skillswapcomunity.skillswapcomunity.service.SkillService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,11 @@ public class SkillController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSkill(@PathVariable Long id) {
-        skillService.deleteSkill(id);
-        return ResponseEntity.noContent().build();
+        try {
+            skillService.deleteSkill(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }

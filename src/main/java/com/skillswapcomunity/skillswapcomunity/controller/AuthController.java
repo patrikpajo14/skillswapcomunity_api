@@ -1,18 +1,12 @@
 package com.skillswapcomunity.skillswapcomunity.controller;
 
-import com.skillswapcomunity.skillswapcomunity.domain.RefreshToken;
 import com.skillswapcomunity.skillswapcomunity.dto.*;
 import com.skillswapcomunity.skillswapcomunity.model.LoginResponse;
 import com.skillswapcomunity.skillswapcomunity.model.Person;
 import com.skillswapcomunity.skillswapcomunity.service.AuthenticationService;
 import com.skillswapcomunity.skillswapcomunity.service.JwtService;
-import com.skillswapcomunity.skillswapcomunity.service.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,8 +18,6 @@ public class AuthController {
     private final JwtService jwtService;
 
     private final AuthenticationService authenticationService;
-
-    private RefreshTokenService refreshTokenService;
 
     @PostMapping("/signup")
     public ResponseEntity<Person> register(@RequestBody RegisterUserDto registerUserDto) {

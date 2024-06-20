@@ -49,7 +49,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/bugtracking/**").authenticated()
                         .anyRequest()
                         .authenticated())
                 .authenticationProvider(authenticationProvider)
@@ -73,17 +72,4 @@ public class SecurityConfiguration {
         return bean;
     }
 
-/*    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
-
-        return source;
-    }*/
 }

@@ -37,15 +37,15 @@ public class Person implements UserDetails {
 
     @ManyToOne
     @JoinColumn(name="company_id")
-    @JsonBackReference
+    @JsonBackReference(value="company")
     private Company company;
 
     @OneToMany(mappedBy = "sender")
-    @JsonManagedReference
+    @JsonManagedReference(value="sentRequests")
     private List<Requests> sentRequests;
 
     @OneToMany(mappedBy = "recipient")
-    @JsonManagedReference
+    @JsonManagedReference(value="receivedRequests")
     private List<Requests> receivedRequests;
 
     @Override

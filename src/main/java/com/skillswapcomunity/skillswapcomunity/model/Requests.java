@@ -18,11 +18,11 @@ public class Requests {
 
     @ManyToOne
     @JoinColumn(name="sender_id")
-    @JsonBackReference
+    @JsonBackReference(value="sentRequests")
     private Person sender;
 
     @ManyToOne
     @JoinColumn(name="recipient_id")
-    @JsonBackReference
+    @JsonBackReference(value="receivedRequests")
     private Person recipient;
 }
